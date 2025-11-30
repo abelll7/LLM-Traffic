@@ -3,10 +3,15 @@
 A simple Flask-based AI chatbot that provides state-specific motor vehicle law information using OpenAI, LangChain, and FAISS.
 
 ⚙️ Features
+
 Answers traffic rules, fines, licensing queries
+
 State & language selection
+
 PDF-based knowledge base
+
 FAISS vector search + reranking
+
 Clean web chat interface
 
 📦 Setup
@@ -19,7 +24,8 @@ OPENAI_API_KEY=your_key
 
 
 ▶ Start the app
-1.python app.py
+
+python app.py
 
 
 Open:
