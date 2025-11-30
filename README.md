@@ -19,7 +19,7 @@ OPENAI_API_KEY=your_key
 
 
 ▶ Start the app
-python app.py
+1.python app.py
 
 
 Open:
