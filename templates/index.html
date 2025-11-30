@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Motor Law Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <h2>Motor Vehicle Legal Advisor 🚗 </h2>
+        <div class="settings">
+            <label>State:</label>
+            <select id="state">
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Kerala">Kerala</option>
+                
+            </select>
+
+            <label>Language:</label>
+            <select id="language">
+                <option value="English">English</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Malayalam">Malayalam</option>
+            </select>
+        </div>
+
+        <div id="chat-box" class="chat-box"></div>
+
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Ask your question...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById("user-input");
+            const message = input.value.trim();
+            if (!message) return;
+
+            const chatBox = document.getElementById("chat-box");
+            const state = document.getElementById("state").value;
+            const language = document.getElementById("language").value;
+
+            chatBox.innerHTML += `<div class="user-msg"><b>You:</b> ${message}</div>`;
+            input.value = "";
+
+            chatBox.innerHTML += `<div class="bot-msg">Typing...</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            const response = await fetch("/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ question: message, state: state, language: language })
+            });
+
+            const data = await response.json();
+            chatBox.querySelector(".bot-msg:last-child").remove();
+
+            if (data.answer) {
+                chatBox.innerHTML += `<div class="bot-msg"><b>Bot:</b> ${data.answer}</div>`;
+            } else {
+                chatBox.innerHTML += `<div class="bot-msg error">Error: ${data.error}</div>`;
+            }
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
